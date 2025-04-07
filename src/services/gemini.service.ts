@@ -5,6 +5,7 @@ import { ERROR_CODES } from "../Errors/ErrorCodes.ts";
 
 export const generateImage = async (prompt: string): Promise<AiResponse> => {
   try {
+    console.log("key: ", process.env.GEMINI_API_KEY)
     const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
     const contents = `Hi, can you create an image of a ${prompt} please refer to the content "${prompt}" as the image content`;
 
