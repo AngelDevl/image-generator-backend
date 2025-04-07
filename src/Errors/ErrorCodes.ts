@@ -1,0 +1,3 @@
+export const ERROR_CODES = {
+    IMAGE_GENERATION_FAILED: 1000
+}
