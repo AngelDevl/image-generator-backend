@@ -17,7 +17,13 @@ export const public_dir = path.join(__dirname, "public");
 
 app.use(
   cors({
-    origin: ["http://localhost:5173", "http://localhost:8080", "https://cxxw9wm0-8080.euw.devtunnels.ms", "https://image-generator-backend-production-9443.up.railway.app/"],
+    origin: [
+      "http://localhost:5173",
+      "http://localhost:8080",
+      "https://cxxw9wm0-8080.euw.devtunnels.ms",
+      "https://image-generator-backend-production-9443.up.railway.app",
+      "https://cxxw9wm0-8080.euw.devtunnels.ms"
+    ],
     credentials: true,
   })
 );

@@ -14,24 +14,25 @@ export const generateClient = tryCatch(async (req, res) => {
 
 
 export const generateServer = tryCatch(async (req, res) => {
-  const prompt = req.params.prompt;
-  console.log("Generating:", prompt);
+  // const prompt = req.params.prompt;
+  // console.log("Generating:", prompt);
 
-  const AiResponse = await generateImage(prompt);
+  // const AiResponse = await generateImage(prompt);
     
-  if (!AiResponse?.success || !AiResponse.imageBuffer) {
-    res.json({ success: false, message: AiResponse?.message });
-    return;
-  }
+  // if (!AiResponse?.success || !AiResponse.imageBuffer) {
+  //   res.json({ success: false, message: AiResponse?.message });
+  //   return;
+  // }
 
-  // Save the image so we can reference it in Open Graph meta tag
-  const cloudinary_response = await cloudinary.uploader.upload(
-    `data:image/png;base64,${AiResponse.imageBuffer.toString('base64')}`, 
-    { resource_type: "auto" }
-  );
+  // // Save the image so we can reference it in Open Graph meta tag
+  // const cloudinary_response = await cloudinary.uploader.upload(
+  //   `data:image/png;base64,${AiResponse.imageBuffer.toString('base64')}`, 
+  //   { resource_type: "auto" }
+  // );
 
-  const secure_url = cloudinary_response.secure_url;
-
+  // const secure_url = cloudinary_response.secure_url;
+  const secure_url = "https://res.cloudinary.com/dgxojyded/image/upload/v1744027268/g6vbo8yttutgn1lv61k6.png";
+  const prompt = "monkey";
   res.set("Content-Type", "text/html");
   res.send(`
     <!DOCTYPE html>
