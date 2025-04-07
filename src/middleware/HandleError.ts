@@ -1,27 +1,46 @@
 import { Request, Response, NextFunction } from "express";
 import { ApiError } from "../Errors/ApiError.ts";
-// import { ApiError } from "../Errors/ApiError.ts";
-// import { DatabaseError } from "../Errors/DatabaseError.ts";
 
 // Error handler with types for Request and Response
-const errorHandler = async (error: any, req: Request, res: Response, next: NextFunction) => {
-    console.error(`Error occurred on ${req.method} ${req.originalUrl}:`, error);
+const errorHandler = (error: any, req: Request, res: Response, next: NextFunction) => {
+  console.error(`Error occurred on ${req.method} ${req.originalUrl}:`, error);
 
-    if (error instanceof ApiError) {
-        if (error.toPass) {
-            console.log(error.toPass.message)
-        }
+  // Handle ApiError instances
+  if (error instanceof ApiError) {
+    const statusCode = error.statusCode || 500;
+    const response: any = {
+      success: false,
+      error: {
+        code: error.errorCode,
+        message: error.message
+      }
+    };
+    
+    // Only include additional data in development environment
+    if (process.env.NODE_ENV !== 'production' && error.toPass) {
+      response.error['details'] = error.toPass;
     }
+    
+    return res.status(statusCode).json(response);
+  }
 
-    // if (error instanceof DatabaseError) {
+  // For all other types of errors
+  const statusCode = error.statusCode || 500;
+  const errorResponse: any = {
+    success: false,
+    error: {
+      message: process.env.NODE_ENV === 'production' 
+        ? "An internal server error occurred." 
+        : error.message || "Unknown error"
+    }
+  };
 
-    // }
+  // Add stack trace in development
+  if (process.env.NODE_ENV !== 'production') {
+    errorResponse.error['stack'] = error.stack;
+  }
 
-    // Send a generic error message to the client
-    res.status(500).json({
-        message: "An internal server error occurred.",
-        error: error.message || error
-    });
+  res.status(statusCode).json(errorResponse);
 };
 
 export default errorHandler;
