@@ -5,6 +5,7 @@ import { ApiError } from "../Errors/ApiError.ts";
 import { ERROR_CODES } from "../Errors/ErrorCodes.ts";
 import { ImageUrlModel } from "../models/imageUrl.model.ts";
 import BuildHtmlResponse from "../utils/BuildHtmlResponse.ts";
+import { generateImageFromPrompt } from "../services/runware.service.ts";
 
 export const generateClient = tryCatch(async (req, res) => {
   let prompt = req.params.prompt;
@@ -45,7 +46,7 @@ export const generateClient = tryCatch(async (req, res) => {
 
   console.log("Client generation for:", prompt);
 
-  const aiResponse = await generateImage(prompt);
+  const aiResponse = await generateImageFromPrompt(prompt);
 
   if (!aiResponse?.success || !aiResponse.imageBuffer) {
     throw new ApiError(
@@ -133,7 +134,7 @@ export const generateServer = tryCatch(async (req, res) => {
     );
   }
 
-  const aiResponse = await generateImage(prompt);
+  const aiResponse = await generateImageFromPrompt(prompt);
 
   if (!aiResponse?.success || !aiResponse.imageBuffer) {
     throw new ApiError(
