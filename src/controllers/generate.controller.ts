@@ -278,6 +278,7 @@ export const generateClient = tryCatch(async (req: Request, res: Response) => {
 
 // Server generation endpoint
 export const generateServer = tryCatch(async (req: Request, res: Response) => {
+  console.log(req.get('user-agent'))
   let prompt = req.params.prompt;
 
   if (!prompt || typeof prompt !== "string" || prompt.trim() === "") {
