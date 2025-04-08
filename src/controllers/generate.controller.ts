@@ -7,7 +7,7 @@ import { ImageUrlModel } from "../models/imageUrl.model.ts";
 import BuildHtmlResponse from "../utils/BuildHtmlResponse.ts";
 
 export const generateClient = tryCatch(async (req, res) => {
-  const prompt = req.params.prompt;
+  let prompt = req.params.prompt;
 
   if (!prompt || typeof prompt !== "string" || prompt.trim() === "") {
     throw new ApiError(
@@ -24,6 +24,10 @@ export const generateClient = tryCatch(async (req, res) => {
       400
     );
   }
+
+  
+  prompt = prompt.substring(0, prompt.length - 1);
+
 
   const existingImage = await ImageUrlModel.findOne({ prompt: prompt });
   if (existingImage) {
@@ -78,7 +82,7 @@ export const generateClient = tryCatch(async (req, res) => {
 });
 
 export const generateServer = tryCatch(async (req, res) => {
-  const prompt = req.params.prompt;
+  let prompt = req.params.prompt;
 
   if (!prompt || typeof prompt !== "string" || prompt.trim() === "") {
     throw new ApiError(
@@ -95,6 +99,8 @@ export const generateServer = tryCatch(async (req, res) => {
       400
     );
   }
+
+  prompt = prompt.substring(0, prompt.length - 1);
 
   const existingImage = await ImageUrlModel.findOne({ prompt: prompt });
   if (existingImage) {
