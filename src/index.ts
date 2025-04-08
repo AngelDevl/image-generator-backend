@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 8080;
 export const __filename = fileURLToPath(import.meta.url);
 export const __dirname = path.dirname(__filename);
 
-export const public_dir = path.join(__dirname, "public");
+export const public_dir = path.join(__dirname, '..', "public");
 
 app.use(
   cors({
@@ -23,13 +23,14 @@ app.use(
       "http://localhost:8080",
       "https://cxxw9wm0-8080.euw.devtunnels.ms",
       "https://image-generator-backend-production-9443.up.railway.app",
-      "https://cxxw9wm0-8080.euw.devtunnels.ms"
+      "https://cxxw9wm0-8080.euw.devtunnels.ms",
+      "https://melts.cc"
     ],
     credentials: true,
   })
 );
 
-app.use("/favicon.ico", express.static("public/images/linkmelt-icon.webp"));
+app.use("/favicon.ico", express.static("public/images/image-gen-icon.png"));
 app.use("/app", express.static(public_dir));
 
 app.use("/", generateRouter);
