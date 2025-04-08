@@ -4,6 +4,7 @@ import path from "path";
 import cors from "cors";
 import { fileURLToPath } from "url";
 import generateRouter from "./routes/generate.route.ts";
+import { connectToDatabase } from "./utils/connectDB.ts";
 
 dotenv.config();
 const app = express();
@@ -33,4 +34,7 @@ app.use("/app", express.static(public_dir));
 
 app.use("/", generateRouter);
 
-app.listen(PORT, () => console.log(`Server is listening to port: ${PORT}`));
+app.listen(PORT, async () => {
+  await connectToDatabase();
+  console.log(`Server is listening to port: ${PORT}`)
+});
