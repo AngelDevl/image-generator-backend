@@ -17,6 +17,14 @@ export const generateClient = tryCatch(async (req, res) => {
     );
   }
 
+  if (!prompt.endsWith("$")) {
+    throw new ApiError(
+      ERROR_CODES.INVALID_INPUT,
+      "Invalid or missing prompt parameter",
+      400
+    );
+  }
+
   const existingImage = await ImageUrlModel.findOne({ prompt: prompt });
   if (existingImage) {
     const existingSecureUrl = existingImage.imageSecureUrl;

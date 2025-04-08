@@ -35,6 +35,10 @@ app.use("/app", express.static(public_dir));
 
 app.use("/", generateRouter);
 
+app.use((req, res) => {
+  res.sendStatus(404)
+})
+
 app.listen(PORT, async () => {
   await connectToDatabase();
   console.log(`Server is listening to port: ${PORT}`)
