@@ -16,7 +16,7 @@ export async function generateImageFromPrompt(
       return {
         success: false,
         imageBuffer: null,
-        message: "Unknown error occurred.",
+        message: "No Api key",
       };
 
     const runware = new Runware({ apiKey: api_key });
@@ -53,6 +53,7 @@ export async function generateImageFromPrompt(
       message: "No image data found in response.",
     };
   } catch (error: any) {
+    console.log(error)
     // Catch errors and return a failure response
     return {
       success: false,
