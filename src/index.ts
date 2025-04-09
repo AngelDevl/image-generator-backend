@@ -31,6 +31,27 @@ app.use(
 app.use("/favicon.ico", express.static("public/images/image-gen-icon.png"));
 app.use("/app", express.static(public_dir));
 
+app.get("/status", (req, res) => {
+  const p = `v.melts.cc/app/animations/placeholder.gif`
+  res.send(`
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta property="og:title" content="Funny Cat GIF" />
+  <meta property="og:description" content="Check out this hilarious cat!" />
+  <meta property="og:image" content=${p} />
+  <meta property="og:type" content="website" />
+</head>
+<body>
+  <p>If you see this, you probably opened the preview page directly.</p>
+</body>
+</html>
+  
+  `)
+})
+
+
 app.use("/", generateRouter);
 
 app.use((req, res) => {
