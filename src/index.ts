@@ -33,7 +33,7 @@ app.use("/app", express.static(public_dir));
 
 app.get("/no/:id", (req, res) => {
   const id = req.params.id;
-  const p = `https://v.melts.cc/app/images/${id}.png`
+  const p = `https://v.melts.cc/app/images/${id}.jpg`
   res.send(`
   <!DOCTYPE html>
 <html lang="en">
