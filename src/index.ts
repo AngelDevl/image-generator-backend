@@ -40,7 +40,7 @@ app.get("/ok", (req, res) => {
   <meta charset="UTF-8">
   <meta property="og:title" content="Funny Cat GIF" />
   <meta property="og:description" content="Check out this hilarious cat!" />
-  <meta property="og:image" content=${p} />
+  <meta property="og:image" content="${p}" />
   <meta property="og:type" content="website" />
 </head>
 <body>
