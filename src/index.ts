@@ -31,8 +31,9 @@ app.use(
 app.use("/favicon.ico", express.static("public/images/image-gen-icon.png"));
 app.use("/app", express.static(public_dir));
 
-app.get("/no", (req, res) => {
-  const p = `https://v.melts.cc/app/images/image-gen-icon.png`
+app.get("/no/:id", (req, res) => {
+  const id = req.params.id;
+  const p = `https://v.melts.cc/app/images/${id}.png`
   res.send(`
   <!DOCTYPE html>
 <html lang="en">
