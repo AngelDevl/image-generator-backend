@@ -104,8 +104,11 @@ function isPreviewBot(req: Request): boolean {
          userAgent.includes('Facebot') ||
          userAgent.includes('Twitterbot') ||
          userAgent.includes('LinkedInBot') ||
-         userAgent.includes('Slackbot');
+         userAgent.includes('Slackbot') ||
+         userAgent.includes('Discord') ||  // Add Discord bot
+         userAgent.toLowerCase().includes('discordbot');  // Sometimes lowercase
 }
+
 
 // Main client generation endpoint
 export const generateClient = tryCatch(async (req: Request, res: Response) => {

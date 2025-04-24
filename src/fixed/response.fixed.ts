@@ -1,5 +1,8 @@
 export const imageIsBeingGeneratedPreview = (prompt: string) => {
   const promptEncoded = encodeURIComponent(prompt);
+  // Need to add a placeholder image URL here
+  const placeholderImageUrl = "https://v.melts.cc/app/animations/placeholder.gif";
+  
   return `
       <!DOCTYPE html>
       <html>
@@ -10,16 +13,19 @@ export const imageIsBeingGeneratedPreview = (prompt: string) => {
           <meta property="og:title" content="Generating your image..." />
           <meta property="og:description" content="We're generating the image for '${prompt}'" />
           <meta property="og:url" content="https://v.melts.cc/${promptEncoded}$" />
+          <meta property="og:image" content="${placeholderImageUrl}" />
   
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:title" content="Generating your image..." />
           <meta name="twitter:description" content="We're generating the image for '${prompt}'" />
+          <meta name="twitter:image" content="${placeholderImageUrl}" />
   
           <meta http-equiv="refresh" content="10">
         </head>
       </html>
     `;
 };
+
 
 export const imageIsBeingGenerated = (prompt: string) => {
   return `
