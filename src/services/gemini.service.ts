@@ -4,7 +4,7 @@ import { ERROR_CODES } from "../Errors/ErrorCodes.ts";
 
 // Define model options with priorities
 const IMAGE_GENERATION_MODELS = [
-  "gemini-1.5-flash-image"
+  "gemini-2.0-flash-exp"
 ];
 
 // Track model availability and cooldown times
