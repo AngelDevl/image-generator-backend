@@ -4,8 +4,7 @@ import { ERROR_CODES } from "../Errors/ErrorCodes.ts";
 
 // Define model options with priorities
 const IMAGE_GENERATION_MODELS = [
-  "gemini-2.0-flash-exp-image-generation", // Primary model
-  "gemini-1.0-pro-vision", // Last resort fallback
+  "gemini-2.0-flash-exp-image-generation"
 ];
 
 // Track model availability and cooldown times
