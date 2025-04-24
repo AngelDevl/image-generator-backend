@@ -16,11 +16,11 @@ setInterval(() => {
   const now = Date.now();
   for (const [prompt, data] of generating.entries()) {
     // Remove entries older than 10 minutes
-    if (now - data.startTime > 10 * 60 * 1000) {
+    if (now - data.startTime > 10 * 1000) {
       generating.delete(prompt);
     }
   }
-}, 5 * 60 * 1000);
+}, 10 * 1000);
 
 const currentGenerationMethod = generateImage;
 
