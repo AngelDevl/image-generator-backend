@@ -1,0 +1,1 @@
+export const generating = new Map<string, { inProcess: boolean; startTime: number }>();

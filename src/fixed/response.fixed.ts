@@ -8,7 +8,7 @@ export const imageIsBeingGeneratedPreview = (prompt: string) => {
       <html>
         <head>
           <meta charset="utf-8">
-          <title>Image is being generated...</title>
+          <title>Image is being generated... Please try sending the url again in 10 seconds</title>
   
           <meta property="og:title" content="Generating your image..." />
           <meta property="og:description" content="We're generating the image for '${prompt}'" />

@@ -31,27 +31,17 @@ app.use(
 app.use("/favicon.ico", express.static("public/images/image-gen-icon.png"));
 app.use("/app", express.static(public_dir));
 
-app.get("/no/:id", (req, res) => {
-  const id = req.params.id;
-  const p = `https://v.melts.cc/app/images/${id}.jpg`
-  res.send(`
-  <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta property="og:title" content="Funny Cat GIF" />
-  <meta property="og:description" content="Check out this hilarious cat!" />
-  <meta property="og:image" content="${p}" />
-  <meta property="og:type" content="website" />
-</head>
-<body>
-  <p>If you see this, you probably opened the preview page directly.</p>
-</body>
-</html>
-  
-  `)
+app.use((req, res, next) => {
+  res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+  res.set('Pragma', 'no-cache');
+  res.set('Expires', '0');
+  next();  
 })
 
+
+app.get("/status", (req, res) => {
+  res.send("Ok")
+})
 
 app.use("/", generateRouter);
 

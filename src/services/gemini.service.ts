@@ -1,6 +1,7 @@
 import { GoogleGenAI } from "@google/genai";
 import { ApiError } from "../Errors/ApiError.ts";
 import { ERROR_CODES } from "../Errors/ErrorCodes.ts";
+import { generating } from "../config/data.config.ts";
 
 // Define model options with priorities
 const IMAGE_GENERATION_MODELS = [
@@ -75,6 +76,7 @@ export const generateImage = async (prompt: string): Promise<AiResponse> => {
               console.log(
                 `Model ${model} appears overloaded, applying cooldown`
               );
+              generating.delete(prompt);
               break;
             }
 
@@ -85,6 +87,7 @@ export const generateImage = async (prompt: string): Promise<AiResponse> => {
 
             const imageData = (part as any).inlineData.data;
             const buffer = Buffer.from(imageData, "base64");
+            generating.delete(prompt);
             console.log(`Successfully generated image with model: ${model}`);
             return { success: true, imageBuffer: buffer, message: null };
           }
@@ -102,6 +105,8 @@ export const generateImage = async (prompt: string): Promise<AiResponse> => {
       });
     } catch (error) {
       console.log(`Error with model ${model}:`, error);
+
+      generating.delete(prompt);
 
       if (error instanceof Error) {
         // Check if error indicates overload
