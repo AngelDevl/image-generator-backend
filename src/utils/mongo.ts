@@ -7,9 +7,10 @@ import {
   OptionalUnlessRequiredId,
   UpdateFilter,
   WithId,
+  WithoutId,
 } from "mongodb";
 
-export abstract class BaseRepository<
+export abstract class BaseRepository
   TSchema extends Document,
   TCreate = TSchema,
 > {
@@ -23,14 +24,14 @@ export abstract class BaseRepository<
     const result = await this.collection.insertOne(
       item as OptionalUnlessRequiredId<TSchema>,
     );
-    return { ...item, _id: result.insertedId } as WithId<TSchema>;
+    return { ...item, _id: result.insertedId } as unknown as WithId<TSchema>;
   }
 
   async getById(id: NonNullable<TSchema["_id"]>): Promise<WithId<TSchema> | null> {
     return this.collection.findOne({ _id: id } as Filter<TSchema>);
   }
 
-  async find(filter: Filter<TSchema> = {}, options?: FindOptions): Promise<WithId<TSchema>[]> {
+  async find(filter: Filter<TSchema> = {}, options?: FindOptions<TSchema>): Promise<WithId<TSchema>[]> {
     return this.collection.find(filter, options).toArray();
   }
 
@@ -38,12 +39,29 @@ export abstract class BaseRepository<
     return this.collection.findOne(filter);
   }
 
-  async update(id: NonNullable<TSchema["_id"]>, item: Partial<TSchema>): Promise<boolean> {
-    const result = await this.collection.updateOne(
+  async update(
+    id: NonNullable<TSchema["_id"]>,
+    item: WithoutId<TSchema>,
+  ): Promise<WithId<TSchema> | null> {
+    return this.collection.findOneAndReplace(
       { _id: id } as Filter<TSchema>,
-      { $set: item } as UpdateFilter<TSchema>,
+      item,
+      { returnDocument: "after" },
     );
-    return result.modifiedCount > 0;
+  }
+
+  async patch(
+    id: NonNullable<TSchema["_id"]>,
+    fields: Partial<WithoutId<TSchema>>,
+  ): Promise<WithId<TSchema> | null> {
+    if (Object.keys(fields).length === 0) {
+      return this.getById(id); 
+    }
+    return this.collection.findOneAndUpdate(
+      { _id: id } as Filter<TSchema>,
+      { $set: fields } as UpdateFilter<TSchema>,
+      { returnDocument: "after" },
+    );
   }
 
   async delete(id: NonNullable<TSchema["_id"]>): Promise<boolean> {
